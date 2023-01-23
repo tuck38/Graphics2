@@ -1,6 +1,7 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
+#include "Vertex.h"
 #include <stdio.h>
 
 //void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -8,25 +9,33 @@ void resizeFrameBufferCallback(GLFWwindow* window, int width, int height);
 
 const char* vertexShaderSource =
 "#version 450                      \n"
-"layout(location = 0) in vec3 vPos; \n"
+"layout(location = 0) in vec3 vPos;\n"
+"layout(location = 1) in vec4 vCol;\n"
+"out vec4 Color;                   \n"
 "void main(){                      \n"
+"     Color = vCol;                \n"
 "     gl_Position = vec4(vPos,1.0);\n"
 "}                                 \0";
 
 const char* fragmentShaderSource = 
 "#version 450                      \n"
 "out vec4 FragColor;               \n"
+"in vec4 Color;                    \n"
 "void main(){                      \n"
-"   FragColor = vec4(1.0);         \n"
+"   FragColor = vec4(Color);       \n"
 "}                                 \0";
 
 //Vertex data array
-const float vertexData[] = 
+
+const Vertex vertexData[] = 
 { 
-	//x   //y   //z
-    +0.0, +0.0, +0.0,
-	+0.2, +0.7, +0.0,
-	+0.6, +0.5, +0.0
+	//triangle 1
+    Vertex{Vec3{-0.5, +0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
+	Vertex{Vec3{-0.5, -0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
+	Vertex{Vec3{+0.0, +0.0, +0.0},Color{1.0, 0.0, 0.0, 0}}
+
+	//triangle 2
+
 };
 
 int main() {
@@ -123,9 +132,16 @@ int main() {
 	//Define vertex attribute layout
 	
 	//tells the shader to definre the VBO as three vec3's
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (const void*)0);
+
+	//positions
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, position)));
 
 	glEnableVertexAttribArray(0);
+
+	//color
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, color)));
+
+	glEnableVertexAttribArray(1);
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.2f, 0.3f, 0.6f, 1.0f);
@@ -134,7 +150,7 @@ int main() {
 		//Use shader program
 		glUseProgram(shaderProgram);
 		
-		//Draw triangle (3 indices!)
+		//Draw triangle (3 indices for each one)
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glfwSwapBuffers(window);
