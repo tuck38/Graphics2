@@ -12,18 +12,20 @@ const char* vertexShaderSource =
 "layout(location = 0) in vec3 vPos;\n"
 "layout(location = 1) in vec4 vCol;\n"
 "out vec4 Color;                   \n"
+"uniform float _Time;              \n"
 "void main(){                      \n"
 "     Color = vCol;                \n"
-"     gl_Position = vec4(vPos,1.0);\n"
+"     gl_Position = vec4(abs(sin(_Time))*vPos,1.0);\n"
 "}                                 \0";
 
 const char* fragmentShaderSource = 
-"#version 450                      \n"
-"out vec4 FragColor;               \n"
-"in vec4 Color;                    \n"
-"void main(){                      \n"
-"   FragColor = vec4(Color);       \n"
-"}                                 \0";
+"#version 450                                \n"
+"out vec4 FragColor;                         \n"
+"in vec4 Color;                              \n"
+"uniform float _Time;                        \n"
+"void main(){                                \n"
+"   FragColor = vec4(abs(sin(_Time))*Color); \n"
+"}                                           \0";
 
 //Vertex data array
 
@@ -32,10 +34,22 @@ const Vertex vertexData[] =
 	//triangle 1
     Vertex{Vec3{-0.5, +0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
 	Vertex{Vec3{-0.5, -0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
-	Vertex{Vec3{+0.0, +0.0, +0.0},Color{1.0, 0.0, 0.0, 0}}
+	Vertex{Vec3{+0.0, +0.0, +0.0},Color{1.0, 0.0, 0.0, 0}},
 
 	//triangle 2
+	Vertex{Vec3{+0.5, +0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
+	Vertex{Vec3{-0.5, +0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
+	Vertex{Vec3{+0.0, +0.0, +0.0},Color{1.0, 0.0, 0.0, 0}},
 
+	//triangle 3
+	Vertex{Vec3{+0.5, -0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
+	Vertex{Vec3{+0.5, +0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
+	Vertex{Vec3{+0.0, +0.0, +0.0},Color{1.0, 0.0, 0.0, 0}},
+
+	//triangle 4
+	Vertex{Vec3{-0.5, -0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
+	Vertex{Vec3{+0.5, -0.5, +0.0},Color{0.0, 0.0, 0.0, 0}},
+	Vertex{Vec3{+0.0, +0.0, +0.0},Color{1.0, 0.0, 0.0, 0}},
 };
 
 int main() {
@@ -94,7 +108,7 @@ int main() {
 	//Link shader program
 	glLinkProgram(shaderProgram);
 
-	//TODO: Check for link status and output errors
+	//Check for link status and output errors
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 	if (!success)
 	{
@@ -149,9 +163,13 @@ int main() {
 
 		//Use shader program
 		glUseProgram(shaderProgram);
+
+		//uniform
+		float time = (float)glfwGetTime();
+		glUniform1f(glGetUniformLocation(shaderProgram, "_Time"), time);
 		
 		//Draw triangle (3 indices for each one)
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 12);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
