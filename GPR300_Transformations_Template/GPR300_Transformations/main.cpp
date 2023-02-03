@@ -18,6 +18,8 @@
 #include "EW/Shader.h"
 #include "EW/ShapeGen.h"
 
+#include "Source/Camera.h"
+
 void resizeFrameBufferCallback(GLFWwindow* window, int width, int height);
 void keyboardCallback(GLFWwindow* window, int keycode, int scancode, int action, int mods);
 
