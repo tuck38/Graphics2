@@ -1,20 +1,36 @@
 #include "Camera.h"
 
-glm::mat4 Camera::getViewMatrix()
+void Camera::update()
 {
-	return glm::mat4();
+	target = glm::vec3(0);
+	position = glm::vec3(0, 0, speed);
 }
 
-glm::mat4 Camera::getProjectionMatrix(float fov, float height, float aspectRatio, float nearPlane, float farPlane)
+glm::mat4 Camera::getViewMatrix()
+{
+	return glm::lookAt(target, position, glm::vec3(0, 1, 0));
+}
+
+glm::mat4 Camera::getProjectionMatrix()
 {
 	if (orthographic)
 	{
 		//ortho
-		return glm::mat4();
+		return ortho(-1.f, 1.f, .01f, 100.f);
 	}
 	else
 	{
 		//perspective
-		return glm::mat4();
+		return perspective(fov, 1.f, .01f, 100.f);
 	}
+}
+
+glm::mat4 Camera::perspective(float fov, float aspetRatio, float nearPlane, float farPlane)
+{
+	return glm::perspective(fov, 1.f, .01f, 100.f);
+}
+
+glm::mat4 Camera::ortho(float height, float aspectRatio, float nearPlane, float farPlane)
+{
+	return glm::ortho(-1.f, 1.f, -1.f, 1.f, .01f, 100.f);
 }

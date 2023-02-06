@@ -7,6 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <stdio.h>
+#include <Time.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -43,10 +44,26 @@ const float MOUSE_SENSITIVITY = 0.1f;
 glm::vec3 bgColor = glm::vec3(0);
 float exampleSliderFloat = 0.0f;
 
+const int numOfCubes = 5;
+
+std::vector<Transform> cubes;
+
+Camera cam;
+
 int main() {
 	if (!glfwInit()) {
 		printf("glfw failed to init");
 		return 1;
+	}
+
+	srand(time(NULL));
+
+	//creation of each cube
+	for (int i = 0; i < numOfCubes; i++)
+	{
+		Transform cube(glm::vec3(rand() % 100 + 1, rand() % 100 + 1, rand() % 100 + 1), glm::vec3(rand() % 100 + 1, rand() % 100 + 1, rand() % 100 + 1), glm::vec3(rand() % 100 + 1, rand() % 100 + 1, rand() % 100 + 1));
+
+		cubes.push_back(cube);
 	}
 
 	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Transformations", 0, 0);
@@ -73,6 +90,7 @@ int main() {
 
 	MeshData cubeMeshData;
 	createCube(1.0f, 1.0f, 1.0f, cubeMeshData);
+	createCube(2.0f, 2.0f, 2.0f, cubeMeshData);
 
 	Mesh cubeMesh(&cubeMeshData);
 
@@ -103,12 +121,27 @@ int main() {
 		//Draw
 		shader.use();
 
-		cubeMesh.draw();
+		shader.setMat4("_CamView", cam.getViewMatrix());
+
+		shader.setMat4("_CamProj", cam.getProjectionMatrix());
+
+		for (int i = 0; i < cubes.size(); i++)
+		{
+			shader.setMat4("_Cube", cubes[i].getModelMatrix());
+
+			cubeMesh.draw();
+		}
 
 		//Draw UI
 		ImGui::Begin("Settings");
-		ImGui::SliderFloat("Example slider", &exampleSliderFloat, 0.0f, 10.0f);
+		ImGui::SliderFloat("Orbit Radius", &cam.fov, 1.0f, 3.0f);
+		ImGui::SliderFloat("Orbit Speed", &cam.speed, 1.0f, 3.0f);
+		ImGui::SliderFloat("FOV", &cam.fov, 1.0f, 3.0f);
+		ImGui::SliderFloat("Ortho Size", &cam.orthographicSize, 0.0f, 100.0f);
+		ImGui::Checkbox("Ortho", &cam.orthographic);
 		ImGui::End();
+
+		cam.update();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

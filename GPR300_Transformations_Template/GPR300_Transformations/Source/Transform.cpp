@@ -15,21 +15,21 @@ glm::mat4 Transform::getModelMatrix()
 
 	glm::mat4 rotMatX(
 	1, 0, 0, 0,
-	0, cos(rotation), -sin(rotation), 0,
-	0, sin(rotation), cos(rotation), 0,
+	0, cos(rotation.x), sin(rotation.x), 0,
+	0, -sin(rotation.x), cos(rotation.x), 0,
 	0, 0, 0, 1
 	);
 	
 	glm::mat4 rotMatY(
-	cos(rotation), 0, sin(rotation), 0,
+	cos(rotation.y), 0, -sin(rotation.y), 0,
 	0, 1, 0, 0,
-	-sin(rotation), 0, cos(rotation), 0,
+	sin(rotation.y), 0, cos(rotation.y), 0,
 	0, 0, 0, 1
 	);
 
 	glm::mat4 rotMatZ(
-	cos(rotation), -sin(rotation), 0, 0,
-	sin(rotation), cos(rotation), 0, 0,
+	cos(rotation.z), sin(rotation.z), 0, 0,
+	-sin(rotation.z), cos(rotation.z), 0, 0,
 	0, 0, 1, 0,
 	0, 0, 0, 1
 	);
@@ -38,7 +38,12 @@ glm::mat4 Transform::getModelMatrix()
 
 	//Translation
 
+	glm::mat4 transMat(
+	1, 0, 0, 0,
+	0, 1, 0, 0,
+	0, 0, 1, 0,
+	position.x, position.y, position.z, 1
+	);
 
-
-	return glm::mat4();
+	return transMat * rotMat * scaleMat;
 }
