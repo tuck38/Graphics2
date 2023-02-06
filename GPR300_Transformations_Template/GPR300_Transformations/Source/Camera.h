@@ -22,7 +22,7 @@ public:
 
 		fov = 2;
 		radius = 2;
-		speed = 2;
+		speed = 0;
 		orthographicSize = 10;
 
 		orthographic = false;

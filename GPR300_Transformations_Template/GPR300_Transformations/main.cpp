@@ -56,6 +56,8 @@ int main() {
 		return 1;
 	}
 
+	cam = Camera();
+
 	srand(time(NULL));
 
 	//creation of each cube
@@ -90,7 +92,6 @@ int main() {
 
 	MeshData cubeMeshData;
 	createCube(1.0f, 1.0f, 1.0f, cubeMeshData);
-	createCube(2.0f, 2.0f, 2.0f, cubeMeshData);
 
 	Mesh cubeMesh(&cubeMeshData);
 
@@ -135,7 +136,7 @@ int main() {
 		//Draw UI
 		ImGui::Begin("Settings");
 		ImGui::SliderFloat("Orbit Radius", &cam.fov, 1.0f, 3.0f);
-		ImGui::SliderFloat("Orbit Speed", &cam.speed, 1.0f, 3.0f);
+		ImGui::SliderFloat("Orbit Speed", &cam.speed, 0.0f, 1.0f);
 		ImGui::SliderFloat("FOV", &cam.fov, 1.0f, 3.0f);
 		ImGui::SliderFloat("Ortho Size", &cam.orthographicSize, 0.0f, 100.0f);
 		ImGui::Checkbox("Ortho", &cam.orthographic);
