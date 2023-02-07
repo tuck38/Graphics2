@@ -61,9 +61,15 @@ int main() {
 	srand(time(NULL));
 
 	//creation of each cube
-	for (int i = 0; i < numOfCubes; i++)
+
+	Transform cube(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+
+	cubes.push_back(cube);
+
+	for (int i = 0; i < numOfCubes - 1; i++)
 	{
-		Transform cube(glm::vec3(rand() % 100 + 1, rand() % 100 + 1, rand() % 100 + 1), glm::vec3(rand() % 100 + 1, rand() % 100 + 1, rand() % 100 + 1), glm::vec3(rand() % 100 + 1, rand() % 100 + 1, rand() % 100 + 1));
+		Transform cube(glm::vec3((rand() % 10) - 5, (rand() % 10) - 5, (rand() % 10) - 5), glm::vec3((rand() % 10) - 5, (rand() % 10) - 5, (rand() % 10) - 5), glm::vec3(1));
+		//Transform cube(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
 		cubes.push_back(cube);
 	}
@@ -122,9 +128,9 @@ int main() {
 		//Draw
 		shader.use();
 
-		shader.setMat4("_CamView", cam.getViewMatrix());
-
 		shader.setMat4("_CamProj", cam.getProjectionMatrix());
+
+		shader.setMat4("_CamView", cam.getViewMatrix());
 
 		for (int i = 0; i < cubes.size(); i++)
 		{
@@ -135,9 +141,9 @@ int main() {
 
 		//Draw UI
 		ImGui::Begin("Settings");
-		ImGui::SliderFloat("Orbit Radius", &cam.fov, 1.0f, 3.0f);
+		//ImGui::SliderFloat("Orbit Radius", &cam.fov, 1.0f, 3.0f);
 		ImGui::SliderFloat("Orbit Speed", &cam.speed, 0.0f, 1.0f);
-		ImGui::SliderFloat("FOV", &cam.fov, 1.0f, 3.0f);
+		ImGui::SliderFloat("FOV", &cam.fov, 1.0f, 180.0f);
 		ImGui::SliderFloat("Ortho Size", &cam.orthographicSize, 0.0f, 100.0f);
 		ImGui::Checkbox("Ortho", &cam.orthographic);
 		ImGui::End();

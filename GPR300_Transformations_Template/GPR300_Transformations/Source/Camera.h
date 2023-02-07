@@ -17,8 +17,8 @@ public:
 
 	Camera()
 	{
-		position = glm::vec3(1);
-		target = glm::vec3(1);
+		position = glm::vec3(12);
+		target = glm::vec3(0);
 
 		fov = 2;
 		radius = 2;
