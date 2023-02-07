@@ -47,5 +47,4 @@ glm::mat4 Transform::getModelMatrix()
 	transMat[3][2] = position.z;
 
 	return  transMat * rotMat * scaleMat;
-	//return glm::mat4(1);
 }

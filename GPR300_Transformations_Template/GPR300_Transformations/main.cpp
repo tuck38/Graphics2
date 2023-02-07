@@ -48,15 +48,13 @@ const int numOfCubes = 5;
 
 std::vector<Transform> cubes;
 
-Camera cam;
-
 int main() {
 	if (!glfwInit()) {
 		printf("glfw failed to init");
 		return 1;
 	}
 
-	cam = Camera();
+	Camera cam = Camera();
 
 	srand(time(NULL));
 
@@ -141,7 +139,7 @@ int main() {
 
 		//Draw UI
 		ImGui::Begin("Settings");
-		//ImGui::SliderFloat("Orbit Radius", &cam.fov, 1.0f, 3.0f);
+		ImGui::SliderFloat("Orbit Radius", &cam.radius, 1.0f, 100.0f);
 		ImGui::SliderFloat("Orbit Speed", &cam.speed, 0.0f, 1.0f);
 		ImGui::SliderFloat("FOV", &cam.fov, 1.0f, 180.0f);
 		ImGui::SliderFloat("Ortho Size", &cam.orthographicSize, 0.0f, 100.0f);

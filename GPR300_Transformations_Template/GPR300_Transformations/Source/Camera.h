@@ -6,6 +6,8 @@ class Camera
 public:
 	glm::vec3 position;
 	glm::vec3 target;
+
+	const glm::vec3 up = glm::vec3(0, 1, 0);
 	
 	float fov;
 	float orthographicSize;
@@ -17,7 +19,7 @@ public:
 
 	Camera()
 	{
-		position = glm::vec3(12);
+		position = glm::vec3(3);
 		target = glm::vec3(0);
 
 		fov = 2;
