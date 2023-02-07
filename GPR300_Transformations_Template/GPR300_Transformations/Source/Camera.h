@@ -7,6 +7,9 @@ public:
 	glm::vec3 position;
 	glm::vec3 target;
 
+	float height;
+	float aspectRatio;
+
 	const glm::vec3 up = glm::vec3(0, 1, 0);
 	
 	float fov;
@@ -22,10 +25,13 @@ public:
 		position = glm::vec3(3);
 		target = glm::vec3(0);
 
+
+		height = 720;
 		fov = 2;
 		radius = 2;
 		speed = 0;
 		orthographicSize = 10;
+		aspectRatio = 1080 / 720;
 
 		orthographic = false;
 	}

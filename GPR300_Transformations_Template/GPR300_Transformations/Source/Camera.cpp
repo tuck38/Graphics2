@@ -54,21 +54,54 @@ glm::mat4 Camera::getProjectionMatrix()
 	if (orthographic)
 	{
 		//ortho
-		return ortho(orthographicSize, 1080.f / 720.f, .01f, 100.f);
+		return ortho(orthographicSize, aspectRatio, 0.1f, 100.f);
 	}
 	else
 	{
 		//perspective
-		return perspective(fov, 1080.f / 720.f, .01f, 100.f);
+		return perspective(fov, aspectRatio, 0.1f, 100.f);
 	}
 }
 
-glm::mat4 Camera::perspective(float fov, float aspectRatio, float nearPlane, float farPlane)
+glm::mat4 Camera::perspective(float fov, float aspectRatio, float n, float f)
 { 
-	return glm::perspective(glm::radians(fov), aspectRatio, .01f, 100.f);
+	float fovy = glm::radians(fov);
+
+	float a = aspectRatio;
+
+	float c = tan(fovy / 2);
+
+	glm::mat4 proj = glm::mat4(1);
+
+	proj[0][0] = 1 / (a * c);
+	proj[1][1] = 1 / c;
+	proj[2][2] = -((f + n) / (f - n));
+	proj[3][2] = -((2 * f * n) / (f - n));
+	proj[2][3] = -1;
+
+	return proj;
 }
 
-glm::mat4 Camera::ortho(float height, float aspectRatio, float nearPlane, float farPlane)
+glm::mat4 Camera::ortho(float height, float aspectRatio, float n, float f)
 {
-	return glm::ortho(-1.f, 1.f, -1.f, 1.f, .01f, 100.f);
+	float width = aspectRatio * height;
+
+	float r = width / 2;
+	float t = height / 2;
+	float b = -t;
+	float l = -r;
+
+	glm::mat4 ortho = glm::mat4(1);
+
+	ortho[0][0] = 2 / (r - l);
+	ortho[1][1] = 2 / (t - b);
+	ortho[2][2] = -2 / (f - n);
+
+	ortho[3][0] = -(r + l) / (r - l);
+	ortho[3][1] = -(t + b) / (t - b);
+	ortho[3][2] = -(f + n) / (f - n);
+
+
+	//return glm::ortho(l, r, b, t);
+	return ortho;
 }
