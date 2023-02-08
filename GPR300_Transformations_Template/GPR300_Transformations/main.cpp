@@ -60,13 +60,13 @@ int main() {
 
 	//creation of each cube
 
-	Transform cube(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+	Transform cube(glm::vec3(0), glm::vec3(0), glm::vec3(1, 1, 1));
 
 	cubes.push_back(cube);
 
 	for (int i = 0; i < numOfCubes - 1; i++)
 	{
-		Transform cube(glm::vec3((rand() % 10) - 5, (rand() % 10) - 5, (rand() % 10) - 5), glm::vec3((rand() % 10) - 5, (rand() % 10) - 5, (rand() % 10) - 5), glm::vec3(1));
+		Transform cube(glm::vec3((rand() % 10) - 5, (rand() % 10) - 5, (rand() % 10) - 5), glm::vec3(rand() % 360, rand() % 360, rand() % 360), glm::vec3(1));
 		//Transform cube(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
 		cubes.push_back(cube);
@@ -140,10 +140,93 @@ int main() {
 		//Draw UI
 		ImGui::Begin("Settings");
 		ImGui::SliderFloat("Orbit Radius", &cam.radius, 1.0f, 100.0f);
-		ImGui::SliderFloat("Orbit Speed", &cam.speed, 0.0f, 1.0f);
+		ImGui::SliderFloat("Orbit", &cam.speed, 0.0f, 6.30f);
 		ImGui::SliderFloat("FOV", &cam.fov, 1.0f, 180.0f);
 		ImGui::SliderFloat("Ortho Size", &cam.orthographicSize, 0.0f, 100.0f);
 		ImGui::Checkbox("Ortho", &cam.orthographic);
+		ImGui::End();
+
+		ImGui::Begin("Cube 1");
+
+		ImGui::SliderFloat("position x", &cubes[0].position.x, -10.0f, 10.0f);
+		ImGui::SliderFloat("position y", &cubes[0].position.y, -10.0f, 10.0f);
+		ImGui::SliderFloat("position z", &cubes[0].position.z, -10.0f, 10.0f);
+
+		ImGui::SliderFloat("rotation x", &cubes[0].rotation.x, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation y", &cubes[0].rotation.y, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation z", &cubes[0].rotation.z, 0.f, 6.30f);
+
+		ImGui::SliderFloat("scale x", &cubes[0].scale.x, 0.f, 10.f);
+		ImGui::SliderFloat("scale y", &cubes[0].scale.y, 0.f, 10.f);
+		ImGui::SliderFloat("scale z", &cubes[0].scale.z, 0.f, 10.f);
+
+		ImGui::End();
+
+		ImGui::Begin("Cube 2");
+
+		ImGui::SliderFloat("position x", &cubes[1].position.x, -10.0f, 10.0f);
+		ImGui::SliderFloat("position y", &cubes[1].position.y, -10.0f, 10.0f);
+		ImGui::SliderFloat("position z", &cubes[1].position.z, -10.0f, 10.0f);
+
+		ImGui::SliderFloat("rotation x", &cubes[1].rotation.x, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation y", &cubes[1].rotation.y, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation z", &cubes[1].rotation.z, 0.f, 6.30f);
+
+		ImGui::SliderFloat("scale x", &cubes[1].scale.x, 0.f, 10.f);
+		ImGui::SliderFloat("scale y", &cubes[1].scale.y, 0.f, 10.f);
+		ImGui::SliderFloat("scale z", &cubes[1].scale.z, 0.f, 10.f);
+
+		ImGui::End();
+
+		ImGui::Begin("Cube 3");
+
+
+		ImGui::SliderFloat("position x", &cubes[2].position.x, -10.0f, 10.0f);
+		ImGui::SliderFloat("position y", &cubes[2].position.y, -10.0f, 10.0f);
+		ImGui::SliderFloat("position z", &cubes[2].position.z, -10.0f, 10.0f);
+
+		ImGui::SliderFloat("rotation x", &cubes[2].rotation.x, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation y", &cubes[2].rotation.y, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation z", &cubes[2].rotation.z, 0.f, 6.30f);
+
+		ImGui::SliderFloat("scale x", &cubes[2].scale.x, 0.f, 10.f);
+		ImGui::SliderFloat("scale y", &cubes[2].scale.y, 0.f, 10.f);
+		ImGui::SliderFloat("scale z", &cubes[2].scale.z, 0.f, 10.f);
+
+		ImGui::End();
+
+		ImGui::Begin("Cube 4");
+
+
+		ImGui::SliderFloat("position x", &cubes[3].position.x, -10.0f, 10.0f);
+		ImGui::SliderFloat("position y", &cubes[3].position.y, -10.0f, 10.0f);
+		ImGui::SliderFloat("position z", &cubes[3].position.z, -10.0f, 10.0f);
+
+		ImGui::SliderFloat("rotation x", &cubes[3].rotation.x, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation y", &cubes[3].rotation.y, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation z", &cubes[3].rotation.z, 0.f, 6.30f);
+
+		ImGui::SliderFloat("scale x", &cubes[3].scale.x, 0.f, 10.f);
+		ImGui::SliderFloat("scale y", &cubes[3].scale.y, 0.f, 10.f);
+		ImGui::SliderFloat("scale z", &cubes[3].scale.z, 0.f, 10.f);
+
+		ImGui::End();
+
+		ImGui::Begin("Cube 5");
+
+
+		ImGui::SliderFloat("position x", &cubes[4].position.x, -10.0f, 10.0f);
+		ImGui::SliderFloat("position y", &cubes[4].position.y, -10.0f, 10.0f);
+		ImGui::SliderFloat("position z", &cubes[4].position.z, -10.0f, 10.0f);
+
+		ImGui::SliderFloat("rotation x", &cubes[4].rotation.x, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation y", &cubes[4].rotation.y, 0.f, 6.30f);
+		ImGui::SliderFloat("rotation z", &cubes[4].rotation.z, 0.f, 6.30f);
+
+		ImGui::SliderFloat("scale x", &cubes[4].scale.x, 0.f, 10.f);
+		ImGui::SliderFloat("scale y", &cubes[4].scale.y, 0.f, 10.f);
+		ImGui::SliderFloat("scale z", &cubes[4].scale.z, 0.f, 10.f);
+
 		ImGui::End();
 
 		cam.update();

@@ -5,6 +5,7 @@ glm::mat4 Transform::getModelMatrix()
 	//Scale
 
 	glm::mat4 scaleMat = glm::mat4(1);
+
 	scaleMat[0][0] = scale.x;
 	scaleMat[1][1] = scale.y;
 	scaleMat[2][2] = scale.z;
@@ -24,7 +25,6 @@ glm::mat4 Transform::getModelMatrix()
 	rotMatY[2][0] = sin(rotation.y);
 	rotMatY[0][2] = -sin(rotation.y);
 	rotMatY[2][2] = cos(rotation.y);
-
 
 
 	glm::mat4 rotMatZ = glm::mat4(1);

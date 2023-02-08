@@ -4,13 +4,12 @@ void Camera::update()
 {
 	target = glm::vec3(0);
 
+	position = glm::vec3(radius);
 
 	glm::vec3 newPos = position;
 	newPos.x = position.x * cos(speed) - position.z * sin(speed);
 	newPos.z = position.z * cos(speed) + position.x * sin(speed);
 	position = newPos;
-
-	//position.y = radius;
 
 }
 
@@ -46,6 +45,7 @@ glm::mat4 Camera::getViewMatrix()
 	transInv[3][1] = -position.y;
 	transInv[3][2] = -position.z;
 
+
 	return rotInv * transInv;
 }
 
@@ -71,15 +71,15 @@ glm::mat4 Camera::perspective(float fov, float aspectRatio, float n, float f)
 
 	float c = tan(fovy / 2);
 
-	glm::mat4 proj = glm::mat4(1);
+	glm::mat4 prespec = glm::mat4(1);
 
-	proj[0][0] = 1 / (a * c);
-	proj[1][1] = 1 / c;
-	proj[2][2] = -((f + n) / (f - n));
-	proj[3][2] = -((2 * f * n) / (f - n));
-	proj[2][3] = -1;
+	prespec[0][0] = 1 / (a * c);
+	prespec[1][1] = 1 / c;
+	prespec[2][2] = -((f + n) / (f - n));
+	prespec[3][2] = -((2 * f * n) / (f - n));
+	prespec[2][3] = -1;
 
-	return proj;
+	return prespec;
 }
 
 glm::mat4 Camera::ortho(float height, float aspectRatio, float n, float f)
@@ -102,6 +102,6 @@ glm::mat4 Camera::ortho(float height, float aspectRatio, float n, float f)
 	ortho[3][2] = -(f + n) / (f - n);
 
 
-	//return glm::ortho(l, r, b, t);
+	//return glm::ortho(-100, 100, -100, 100);
 	return ortho;
 }

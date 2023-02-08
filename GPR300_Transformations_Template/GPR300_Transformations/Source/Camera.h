@@ -22,12 +22,12 @@ public:
 
 	Camera()
 	{
-		position = glm::vec3(3);
+		position = glm::vec3(90);
 		target = glm::vec3(0);
 
 
 		height = 720;
-		fov = 2;
+		fov = 30;
 		radius = 2;
 		speed = 0;
 		orthographicSize = 10;
